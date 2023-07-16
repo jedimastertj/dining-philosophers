@@ -1,0 +1,37 @@
+Brief description of the dining philosophers problem
+
+The dining philosophers problem contains five philosophers sitting on a round table can perform only one among two actions – eat and think. 
+For eating, each of them requires two forks, one kept beside each person. 
+Typically, allowing unrestricted access to the forks may result in a deadlock.
+
+Solution
+
+Philosophers are represented by the multiple threads.
+We use a semaphore to represent a fork. 
+A fork can be picked up by executing a wait operation on the semaphore and released by executing a post operation.
+
+Initially all forks are initialized to 1 as all of them are available to be used.
+The algo for philosopher i is:
+while (1) {
+   wait(fork[(i+1) % 5]); 
+   wait(fork[i]);
+   EATING
+   signal(fork[i]);
+   signal(fork[(i+1) % 5]);
+   THINKING
+}
+except last philosopher 4 who picks up right fork first (solution to deadlock).
+
+For the next part, a semaphore can be used for a saucebowl, initialised to 1.
+Philosophers access the bowl after picking up the forks.
+Philosophers 0, 2, 4 access bowl 0 and 1, 3 access bowl 1.
+The algo for philosopher i is:
+while (1) {
+    takeForks();
+    accessBowl();
+    EATING
+    leaveBowl();
+    leaveForks();
+    THINKING
+}
+where takeForks() and leaveForks() is performed exactly like the first case.
